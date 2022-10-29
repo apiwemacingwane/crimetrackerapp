@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <!-- Tell the browser to be responsive to screen width -->
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Home | Crime Tracker</title>
+            <!-- Favicon icon -->
+            <link rel="icon" type="image/png" sizes="16x16" href="/images/police-handcuffs.png" >
+            <!-- Custom CSS -->
+            <link href="plugins/bower_components/chartist/dist/chartist.min.css" rel="stylesheet">
+            <link rel="stylesheet" href="plugins/bower_components/chartist-plugin-tooltips/dist/chartist-plugin-tooltip.css">
+            <!-- Custom CSS -->
+            <link href="css/style.min.css" rel="stylesheet">
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        </head>
+        <div id="main-wrapper" data-layout="vertical" data-navbarbg="skin5" data-sidebartype="full"
+        data-sidebar-position="absolute" data-header-position="absolute" data-boxed-layout="full">
+        <!-- Topbar header - style you can find in pages.scss -->
+        <header class="topbar" data-navbarbg="skin5">
+            <nav class="navbar top-navbar navbar-expand-md navbar-dark">
+                <div class="navbar-header" data-logobg="skin6">
+                    <!-- Logo -->
+                    <a class="navbar-brand" href="/home">
+                        <b class="logo-icon">
+                            <!-- Dark Logo icon -->
+                            <img src="images/police-handcuffs.png" alt="homepage" width="50" height="50"/>
+                        </b>
+                        <span class="logo-text">
+                            <!-- dark Logo text -->
+                            <img src="images/images.jpg" alt="homepage" />
+                        </span>
+                    </a>
+                </div>
+            </nav>
+        </header>
+        </div>
+    </head>
+    <body>
+		<div id="colFilter_div" class="col-lg-4 col-md-12" style="width:100%; max-width:600px; height:200px;"></div>
+		<div id="chart_div" style="width:100%; max-width:600px; height:500px;"></div>
+
+
+		<script>
+			google.charts.load('current', {packages: ['corechart']});
+			google.charts.setOnLoadCallback(drawChart);
+
+			function drawChart () {
+				var data = new google.visualization.DataTable();
+				data.addColumn('string', 'Year');
+				data.addColumn('number', 'Commercial crime');
+				data.addColumn('number', 'Shoplifting');
+				data.addColumn('number', 'Burglary at non-residential premises');
+				data.addColumn('number', 'Sexual Offences');
+				data.addColumn('number', 'Murder');
+				data.addColumn('number', 'Carjacking');
+				data.addColumn('number', 'Arson');
+				data.addRows([
+					['2005',243,233,135,44,6,4,0],
+					['2006',230,339,222,38,5,5,3],
+					['2007',350,331,188,72,3,9,4],
+					['2008',349,387,199,139,3,7,4],
+					['2009',361,421,184,60,5,5,2],
+					['2010',338,341,170,39,2,2,1],
+					['2011',399,336,228,34,10,4,3],
+					['2012',332,294,220,23,5,5,5],
+					['2013',304,306,217,27,6,9,2],
+					['2014',260,297,209,25,3,9,0],
+					['2015',275,294,171,31,3,13,1],
+					['2017',332,294,220,23,5,5,5],
+					['2019',304,306,217,27,6,9,2],
+					['2020',260,297,209,25,3,9,0],
+					['2021',275,294,171,31,3,13,1]] );
+
+				var columnsTable = new google.visualization.DataTable();
+				columnsTable.addColumn('number', 'colIndex');
+				columnsTable.addColumn('string', 'colLabel');
+				var initState= {selectedValues: []};
+				// put the columns into this data table (skip column 0)
+				for (var i = 1; i < data.getNumberOfColumns(); i++) {
+					columnsTable.addRow([i, data.getColumnLabel(i)]);
+				}
+				initState.selectedValues.push(data.getColumnLabel(4));
+				
+				var chart = new google.visualization.ChartWrapper({
+					chartType: 'BarChart',
+					containerId: 'chart_div',
+					dataTable: data,
+					options: {
+						title: 'Crime Statistics',
+						width: 600,
+						height: 800
+					}
+				});
+				
+				var columnFilter = new google.visualization.ControlWrapper({
+					controlType: 'CategoryFilter',
+					containerId: 'colFilter_div',
+					dataTable: columnsTable,
+					options: {
+						filterColumnLabel: 'colLabel',
+						ui: {
+							label: 'Columns',
+							allowTyping: false,
+							allowMultiple: true,
+							allowNone: false,
+							selectedValuesLayout: 'belowStacked'
+						}
+					},
+					state: initState
+				});
+				
+				function setChartView () {
+					var state = columnFilter.getState();
+					var row;
+					var view = {
+						columns: [0]
+					};
+					for (var i = 0; i < state.selectedValues.length; i++) {
+						row = columnsTable.getFilteredRows([{column: 1, value: state.selectedValues[i]}])[0];
+						view.columns.push(columnsTable.getValue(row, 0));
+					}
+					// sort the indices into their original order
+					view.columns.sort(function (a, b) {
+						return (a - b);
+					});
+					chart.setView(view);
+					chart.draw();
+				}
+				google.visualization.events.addListener(columnFilter, 'statechange', setChartView);
+				
+				setChartView();
+				columnFilter.draw();
+			}
+				</script>
+			</head>
+            <%- include('partials/footer') %>
+	</body>
+</html>

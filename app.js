@@ -25,7 +25,7 @@ app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(session({
   secret: "thisiscrimetrackersecret",
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {maxAge: 1000 * 60 * 60 * 24},
   resave: false
 }));

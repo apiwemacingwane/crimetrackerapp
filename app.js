@@ -65,8 +65,6 @@ app.get('/views/crimealerts',(req, res) => {
  });
 
 
-
-// process.env.PORT ||
 const server = app.listen(port);
 console.log('Listening on port '+ port);
 

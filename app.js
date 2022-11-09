@@ -14,14 +14,14 @@ const crimeRoute = require('./routes/crimeRoutes');
 
 const app = express();
 const port = process.env.PORT||4000;
-
+const MONGODB_URI="mongodb+srv://apiwemacingwane-user:B7hGDKgXXMz2THAx@cluster0.qwaupt4.mongodb.net/crime?retryWrites=true&w=majority"
+// CONNECT DATABASE
 // CONNECT DATABASE
 
-mongoose.connect(process.env.MONGODB_URI||'mongodb://localhost/crimetrackerapp', {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => console.log('DB connection successful'));
-
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(session({

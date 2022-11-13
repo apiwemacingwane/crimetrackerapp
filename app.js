@@ -1,3 +1,4 @@
+//require('dotenv').config()
 const express = require('express');
 const path = require('path');
 const ejs = require('ejs');
@@ -13,7 +14,6 @@ const crimeRoute = require('./routes/crimeRoutes');
 
 const app = express();
 const port = process.env.PORT||4000;
-
 const MONGODB_URI="mongodb+srv://apiwemacingwane-user:B7hGDKgXXMz2THAx@cluster0.qwaupt4.mongodb.net/crime?retryWrites=true&w=majority"
 // CONNECT DATABASE
 // CONNECT DATABASE
@@ -22,12 +22,11 @@ mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
   }).then(() => console.log('DB connection successful'));
-
 app.set('view engine', 'ejs');
 app.use(cookieParser());
 app.use(session({
   secret: "thisiscrimetrackersecret",
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {maxAge: 1000 * 60 * 60 * 24},
   resave: false
 }));

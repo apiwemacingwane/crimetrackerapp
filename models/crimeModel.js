@@ -19,7 +19,7 @@ const crimeSchema = mongoose.Schema({
     validate: [validator.isEmail, 'Please provide a valid email']
   },
   location: {
-    type: String,
+    type: Array,
     required: [true, "Please provide your current location"]
   },
   description: {

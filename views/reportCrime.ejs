@@ -52,18 +52,22 @@
                   <div>
                     <h3>Details</h3>
                     <form action="/report-crime" method="post">
-                        <div class="form-input"><input type="text" name="fullname" placeholder="Enter your name"></div>
+                        <div class="form-input"><input type="text" name="fullname" onclick="getlocation()" placeholder="Enter your name"></div>
                         <div class="form-input"><input type="email" name="email" placeholder="Enter your email address"></div>
                         <div class="form-input"><input type="text" name="phone" placeholder="Enter your number"></div>
-                        <div class="form-input"><input type="text" name="location" placeholder="Enter the location"></div>
+                        <div class="form-input"><input type="hidden" name="location" id="locationId" placeholder="Enter the location"></div>
                         <div class="form-input"><textarea name="description" cols="40" rows="10" placeholder="Describe the crime"></textarea></div> 
-                        <div><button class="form-button btn btn-primary" type="submit">Submit</button></div>
+                        <div><button class="form-button btn btn-primary"  type="submit">Submit</button></div>
                     </form>
                   </div>
                 </div>
             </div>
             <div id="map">
-                <script>
+                <!-- <script type="text/javascript" src="http://maps.google.com/maps/api/js?sensor=false"></script> -->
+                    <script type="text/javascript">
+            
+                    
+                    
                     import tt from '@tomtom-international/web-sdk-maps'
                     var map = tt.map({
                         key: "BoLC9waGtIqMa7OF8GeW1E7cdODwiohH",
@@ -79,5 +83,25 @@
                 </script>
             </div>
         </div>
+        <script type="text/javascript">
+
+            function getlocation() {
+            if (navigator.geolocation) {
+                console.log("in if");
+                navigator.geolocation.getCurrentPosition(showPosition);
+                console.log("in if 2");
+            } else { 
+                alert("Geolocation is not supported by this browser.");
+            }
+            }
+
+            function showPosition(position) {
+            console.log("in fn");
+            console.log("log1",document.getElementById("locationId").value);
+            document.getElementById("locationId").value = [position.coords.latitude, position.coords.longitude];
+            console.log("log2",document.getElementById("locationId").value);
+            console.log(position.coords.latitude, position.coords.longitude);
+            }
+            </script>   
     </body>
 </html>

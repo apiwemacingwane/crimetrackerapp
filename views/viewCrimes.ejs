@@ -45,14 +45,23 @@
 
     <body>
         <div id='map'></div>
+       
+        <input type="hidden" id="loc" value=<%= loc %>> 
+        <input type="hidden" id="des" value=<%= des %>> 
         <script>
-           var currentLocation = [ [18.6280,-33.9335],
-                                    [18.6281101,-33.9006658], 
-                                    [18.6294833,-33.8989204], 
-                                    [18.6269513,-33.8987067], 
-                                    [18.6299554,-33.8946815], 
-                                    [18.6277238,-33.895572] ];
-            var crimes = [ ['Commercial crime'], ['Shoplifting'], ['Burglary at non-residential premises'], ['Sexual Offences'], ['Murder'], ['Carjacking'], ['Arson'] ]
+        
+           var loc = document.getElementById('loc').value;
+           var des = document.getElementById('des').value;
+           var currentLocation = loc.split(',');
+           console.log(currentLocation);
+           for(var i = 0; i < currentLocation.length; i++){
+                var cord = currentLocation[i].split(';');
+                var temp= parseFloat(cord[0]);
+                cord[0] = parseFloat(cord[1]);
+                cord[1] = temp;
+                currentLocation[i] = cord;
+           };
+           var crimes = des.split(',');
             var map = tt.map({
                 container: 'map',
                 key: 'BoLC9waGtIqMa7OF8GeW1E7cdODwiohH',
@@ -61,6 +70,7 @@
             });
             for(var i = 0; i < currentLocation.length; i++){
                 var marker = new tt.Marker().setLngLat(currentLocation[i]).addTo(map);
+                console.log(currentLocation[i]);
                 var popupOffsets = {
                     top: [0, 0],
                     bottom: [0, -70],
@@ -73,6 +83,18 @@
                 var popup = new tt.Popup({offset: popupOffsets}).setHTML(crimes[i]);
                 marker.setPopup(popup).togglePopup();
             }
+            // import express from 'express'
+            // const express = require('express');
+            // const mongoose =require('mongoose');
+            // const app= express();
+            // const ejs =require('ejs');
+
+            // app.set('view engine','ejs');
+            // mongoose.connect('mongodb+srv://apiwemacingwane-user:<password>@cluster0.qwaupt4.mongodb.net/crime?retryWrites=true&w=majority');
+            // app.get('/',(req,res) => {
+            //     res.send('working')
+            // })
+            
             
         </script>
         <div>

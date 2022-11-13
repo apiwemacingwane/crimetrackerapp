@@ -4,7 +4,7 @@ const express = require('express');
 const router = express.Router();
 
 router.get("/crime-alerts", (req,res)=>{
-    console.log('Hello, alerting crimes');
+    console.log('Hello, alerting crimes aboutRoutes');
     res.status(200).render('crimealerts');
 })
 

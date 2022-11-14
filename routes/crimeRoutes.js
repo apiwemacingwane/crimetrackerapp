@@ -3,7 +3,7 @@ const Crime = require('../models/crimeModel');
 //const User = require('../models/userModel');
 const About = require('../models/aboutmodel');
 const CrimeAlert = require('../models/crimeAlertModel');
-//const Patterns = require('../models/frequentpatternModel');
+const Patterns = require('../models/frequentpatternModel');
 
 //const AppError = require('../utils/appError');
 const router = express.Router();
